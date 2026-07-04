@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ollamaembed — text embeddings for Go via Ollama</title>
+<meta name="description" content="A zero-dependency Go client for text→vector embeddings via Ollama's local API — plus vector math and a curated model catalog. The building blocks for semantic / RAG search.">
+<meta property="og:title" content="ollamaembed">
+<meta property="og:description" content="Zero-dependency Ollama embeddings client for Go — vectors, vector math, and a model catalog for semantic/RAG search.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' rx='6' fill='%23161b22'/><rect x='5' y='12' width='3.5' height='7' rx='1' fill='%23a371f7'/><rect x='10.25' y='8' width='3.5' height='11' rx='1' fill='%23bd93ff'/><rect x='15.5' y='4' width='3.5' height='15' rx='1' fill='%23d2b3ff'/></svg>">
+<script>try{var t=localStorage.getItem("gl-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<link rel="stylesheet" href="gloam.css">
+</head>
+<body class="gl">
+<a class="gl-skip" href="#main">Skip to content</a>
+
+<header class="gl-nav">
+  <div class="gl-wrap">
+    <span class="gl-brand">
+      <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true">
+        <rect width="24" height="24" rx="6" fill="var(--gl-panel-2)"/>
+        <rect x="5" y="12" width="3.5" height="7" rx="1" fill="var(--gl-accent)"/>
+        <rect x="10.25" y="8" width="3.5" height="11" rx="1" fill="var(--gl-accent-2)"/>
+        <rect x="15.5" y="4" width="3.5" height="15" rx="1" fill="#d2b3ff"/>
+      </svg>
+      ollamaembed
+    </span>
+    <button class="gl-nav-toggle" aria-label="Toggle navigation" data-gl-nav-toggle="nav" aria-expanded="false">☰</button>
+    <nav id="nav">
+      <a href="#features">Features</a>
+      <a href="#usage">Usage</a>
+      <a href="#install">Install</a>
+      <button class="gl-theme-toggle" data-gl-theme-toggle aria-label="Toggle color theme" aria-pressed="true">
+        <svg class="gl-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="gl-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg>
+      </button>
+      <a class="gl-btn ghost" href="https://github.com/richardwooding/ollamaembed">GitHub ★</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="gl-hero">
+    <div class="gl-wrap gl-hero-grid">
+      <div>
+        <p class="gl-eyebrow">go · zero deps · ollama embeddings</p>
+        <h1>Text embeddings for Go, <span class="gl-grad">via Ollama.</span></h1>
+        <p class="sub">A zero-dependency client for text→vector embeddings through Ollama's local HTTP API — plus the vector math and a curated model catalog that go with it. The building blocks for semantic / RAG search, with no SDK, no cgo, and no bundled model.</p>
+        <div class="gl-cta">
+          <a class="gl-btn primary" href="#install">Install</a>
+          <a class="gl-btn ghost" href="https://pkg.go.dev/github.com/richardwooding/ollamaembed">Go Reference</a>
+        </div>
+        <p class="gl-hint">MIT licensed · standard library only · Go 1.21+</p>
+      </div>
+      <div class="gl-term">
+        <div class="bar">
+          <span class="dot" style="background:#ff5f56"></span>
+          <span class="dot" style="background:#ffbd2e"></span>
+          <span class="dot" style="background:#27c93f"></span>
+          <span class="t">embed.go</span>
+        </div>
+<pre><span class="n">emb</span> := ollamaembed.NewOllama(
+    <span class="ok">"http://localhost:11434"</span>, <span class="ok">"nomic-embed-text"</span>)
+
+vec, _ := emb.Embed(ctx, <span class="ok">"the quick brown fox"</span>)
+ollamaembed.Normalize(vec)  <span class="hd">// unit vector → cosine == dot</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="gl-section" id="features">
+    <div class="gl-wrap">
+      <p class="gl-eyebrow">what you get</p>
+      <h2>The embedding layer for semantic search.</h2>
+      <p class="gl-lede" style="margin-top:14px">A small client, the vector helpers, and a curated catalog — everything you need to turn text into vectors and rank by meaning, nothing you don't.</p>
+      <div class="gl-grid feat" style="margin-top:32px">
+
+        <div class="gl-card">
+          <h3><span class="gl-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h10M4 17h7"/></svg></span>Embedder interface</h3>
+          <p><code>OllamaEmbedder.Embed(ctx, text)</code> is context-aware and returns a <code>[]float32</code>, with clear errors when Ollama is down or the model isn't pulled.</p>
+        </div>
+
+        <div class="gl-card">
+          <h3><span class="gl-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 18L10 6l4 8 3-5 3 9"/></svg></span>Vector math</h3>
+          <p><code>Cosine</code>, <code>Dot</code>, and <code>Normalize</code> operate directly on <code>[]float32</code> — normalize once and cosine becomes a dot product.</p>
+        </div>
+
+        <div class="gl-card">
+          <h3><span class="gl-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg></span>Curated catalog</h3>
+          <p>Recommended embedding models with dimensions and size, plus <code>CatalogLookup</code> / <code>BareName</code> — pick a model without guessing.</p>
+        </div>
+
+        <div class="gl-card">
+          <h3><span class="gl-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M8 11l4 4 4-4M5 21h14"/></svg></span>Model management</h3>
+          <p><code>ListLocal</code> shows what's installed; <code>Pull</code> fetches a model with streaming progress — no shelling out to the CLI.</p>
+        </div>
+
+        <div class="gl-card">
+          <h3><span class="gl-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg></span>Zero dependencies</h3>
+          <p>Standard library only — <code>net/http</code>, <code>encoding/json</code>, <code>math</code>. No SDK, no cgo, no bundled model to ship.</p>
+        </div>
+
+        <div class="gl-card">
+          <h3><span class="gl-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></span>Semantic / RAG ready</h3>
+          <p>The embedding + vector-math layer for RAG. Feed the vectors into any ANN index for sub-linear top-K at scale.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="gl-section" id="usage">
+    <div class="gl-wrap">
+      <p class="gl-eyebrow">usage</p>
+      <h2>Embed, then rank by similarity.</h2>
+      <p class="gl-lede" style="margin-top:14px">Set up Ollama once (<code>ollama pull nomic-embed-text</code>), then embed and compare.</p>
+      <div class="gl-split" style="margin-top:28px">
+<pre class="gl-code"><span class="c">// Embed a string to a unit vector</span>
+emb := ollamaembed.NewOllama(url, <span class="s">"nomic-embed-text"</span>)
+vec, err := emb.Embed(ctx, <span class="s">"the quick brown fox"</span>)
+<span class="k">if</span> err != <span class="k">nil</span> {
+    log.Fatal(err) <span class="c">// Ollama down / model not pulled</span>
+}
+ollamaembed.Normalize(vec)</pre>
+<pre class="gl-code"><span class="c">// Rank documents by cosine similarity</span>
+query := mustEmbed(emb, ctx, <span class="s">"seafaring adventure"</span>)
+<span class="k">for</span> _, doc := <span class="k">range</span> docs {
+    v := mustEmbed(emb, ctx, doc.Text)
+    ollamaembed.Normalize(v)
+    doc.Score = ollamaembed.Cosine(query, v)
+}</pre>
+      </div>
+      <div class="gl-split" style="margin-top:22px">
+<pre class="gl-code"><span class="c"># Curated recommendations (no network)</span>
+<span class="k">for</span> _, m := <span class="k">range</span> ollamaembed.Catalog {
+    fmt.Printf(<span class="s">"%s — %dd\n"</span>, m.Name, m.Dimensions)
+}</pre>
+<pre class="gl-code"><span class="c"># Pull a model, streaming progress</span>
+emb.Pull(ctx, <span class="s">"nomic-embed-text"</span>,
+    <span class="k">func</span>(p ollamaembed.PullProgress) {
+        fmt.Printf(<span class="s">"\r%s %d/%d"</span>, p.Status, p.Completed, p.Total)
+    })</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="gl-section" id="install">
+    <div class="gl-wrap">
+      <p class="gl-eyebrow">install</p>
+      <h2>Add it to your module.</h2>
+      <p class="gl-lede" style="margin-top:14px">One import, no transitive dependencies. Named <code>ollamaembed</code> so it never collides with the standard library's <code>embed</code> package.</p>
+      <div class="gl-install" style="margin-top:26px">
+        <div class="gl-snip">
+          <span class="lbl">go get</span>
+          <code id="i1">go get github.com/richardwooding/ollamaembed</code>
+          <button class="gl-copy" data-gl-copy="i1">Copy</button>
+        </div>
+        <div class="gl-snip">
+          <span class="lbl">import</span>
+          <code id="i2">import "github.com/richardwooding/ollamaembed"</code>
+          <button class="gl-copy" data-gl-copy="i2">Copy</button>
+        </div>
+      </div>
+      <p class="gl-hint">Requires Go 1.21+ and a running <a href="https://ollama.com">Ollama</a>. Pairs with <a href="https://richardwooding.github.io/bm25/">bm25</a> (keyword) for hybrid search; extracted from <a href="https://github.com/richardwooding/file-search-on">file-search-on</a>.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="gl-footer">
+  <div class="gl-wrap">
+    <span class="gl-brand" style="font-size:.98rem">ollamaembed · MIT · <span data-gl-year></span></span>
+    <nav class="gl-fnav">
+      <a href="https://richardwooding.github.io/">Richard Wooding</a>
+      <a href="https://github.com/richardwooding/ollamaembed">GitHub</a>
+      <a href="https://pkg.go.dev/github.com/richardwooding/ollamaembed">Go Reference</a>
+      <a href="https://github.com/richardwooding/ollamaembed/blob/main/LICENSE">License</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="gloam.js" defer></script>
+</body>
+</html>

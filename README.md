@@ -5,6 +5,8 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/richardwooding/ollamaembed)](https://goreportcard.com/report/github.com/richardwooding/ollamaembed)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
+**Website:** [richardwooding.github.io/ollamaembed](https://richardwooding.github.io/ollamaembed/)
+
 A small, **zero-dependency** Go client for text→vector embeddings via [Ollama](https://ollama.com)'s
 local HTTP API — plus the vector helpers and curated model catalog that go with it. The
 building blocks for semantic / RAG search in Go, with **no SDK, no CGo, no bundled model**.
